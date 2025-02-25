@@ -1,12 +1,16 @@
 const express = require("express");
-const app = express();
+const path = require("path");
 
+const app = express();
 const PORT = process.env.PORT || 8080;
 
+// Serve static files from "static" directory
+app.use(express.static(path.join(__dirname, "static")));
+
 app.get("/", (req, res) => {
-  res.send("Hello Cloud Run! Name: Ketul Shah and Student ID:100984227");
+    res.sendFile(path.join(__dirname, "static", "index.html"));
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });

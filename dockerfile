@@ -1,19 +1,18 @@
 # Use an official runtime as a parent image
-FROM node:18  
+FROM node:18
 
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the application files
-COPY . .
+# Copy package.json and install dependencies
+COPY package.json package-lock.json ./
+RUN npm install
 
-# Install dependencies (Modify based on your stack)
-RUN npm install  # For Node.js
-# RUN pip install -r requirements.txt  # For Python
+# Copy all application files (Ensure index.html and static assets are included)
+COPY . .
 
 # Expose port 8080 (Required for Cloud Run)
 EXPOSE 8080
 
 # Start the application
-CMD ["npm", "start"]  # For Node.js
-# CMD ["gunicorn", "-b", "0.0.0.0:8080", "app:app"]  # For Python Flask
+CMD ["node", "server.js"]

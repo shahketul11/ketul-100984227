@@ -1,17 +1,19 @@
-# Step 1: Use an official Python runtime as the base image
-FROM python:3.9-slim
+# Use an official runtime as a parent image
+FROM node:18  
 
-# Step 2: Set the working directory inside the container
+# Set the working directory in the container
 WORKDIR /app
 
-# Step 3: Copy the application files into the container
-COPY . /app
+# Copy the application files
+COPY . .
 
-# Step 4: Install dependencies (Flask)
-RUN pip install flask
+# Install dependencies (Modify based on your stack)
+RUN npm install  # For Node.js
+# RUN pip install -r requirements.txt  # For Python
 
-# Step 5: Expose the port that the Flask app runs on
-EXPOSE 5000
+# Expose port 8080 (Required for Cloud Run)
+EXPOSE 8080
 
-# Step 6: Command to run the application
-CMD ["python", "app.py"]
+# Start the application
+CMD ["npm", "start"]  # For Node.js
+# CMD ["gunicorn", "-b", "0.0.0.0:8080", "app:app"]  # For Python Flask
